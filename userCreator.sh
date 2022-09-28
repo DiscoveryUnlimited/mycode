@@ -1,5 +1,6 @@
 #!/bin/bash
-# script that adds a User to Linux and assigns to a group
+
+#Script that adds a User to Linux and assigns to a group
 
 #Ask for user and group name
 userinput(){
@@ -7,17 +8,21 @@ userinput(){
     read USER
     echo "Enter user's group:"
     read GROUP
+    sleep 1
 }
 
 #Create user and assign group
 assignuser(){
     echo "Creating user"
     sudo useradd $USER
+    sleep 1
     echo "Adding to group"
     sudo groupadd $GROUP
     sudo usermod -aG $GROUP $USER
-    echo "Complete"
+    sleep 2
+    echo "User Creation Complete"
     sudo id $USER
+    sleep 2
 }
 
 #Ask if they would like to create additional user
@@ -26,9 +31,11 @@ close(){
     read CLOSE
 }
 
-#Run program if close
+#Run program while close is not "n"
+echo "Welcome to the User Creator"
+sleep 2
 echo "Create New User"
-sleep 1
+sleep 2
 
 while [ "$CLOSE" != "n" ]
 do
