@@ -6,9 +6,11 @@
 userinput(){
     echo "Enter new user name:"
     read USER
+    echo
     echo "Enter user's group:"
     read GROUP
-    sleep 1
+    echo
+    echo "...................."
 }
 
 #Create user and assign group
@@ -20,22 +22,30 @@ assignuser(){
     sudo groupadd $GROUP
     sudo usermod -aG $GROUP $USER
     sleep 2
-    echo "User Creation Complete"
+    echo
+    echo "...................."
+    echo "User Creation Complete:"
+    echo
     sudo id $USER
-    sleep 2
+    sleep 1
+    echo
+    echo "...................."
 }
 
 #Ask if they would like to create additional user
 close(){
     echo "Would you like to create another User? (y/n)"
     read CLOSE
+    echo
 }
 
 #Run program while close is not "n"
 echo "Welcome to the User Creator"
 sleep 2
+echo
+echo "...................."
 echo "Create New User"
-sleep 2
+echo
 
 while [ "$CLOSE" != "n" ]
 do
@@ -44,4 +54,7 @@ do
     close
 done
 
-
+sleep 1
+echo "...................."
+echo "Exiting Application"
+echo
