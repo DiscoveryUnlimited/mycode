@@ -27,7 +27,7 @@ def main():
     print("The number of failed log in attempts is", loginfail)
     print("\n Failed id addresses:")
     for address in ip:
-        print("    - " + str(address))
+        print("    - " + str(address), end="")
 
     # display the number of successful log in attempts
     print("The number of successful logins is", successful)

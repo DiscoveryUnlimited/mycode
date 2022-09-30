@@ -1,0 +1,24 @@
+#!/usr/bin/python3
+"""Alta3 Research | JPagan
+   Read from files- with customizations."""
+
+
+def main():
+
+    ## create file object in "r"ead mode
+    configfile = open("vlanconfig.cfg", "r")
+
+    ## display file to the screen - .read()
+    configblog = configfile.read()
+
+    ## break configblog across line boundaries (strips out \n)
+    configlist = configblog.splitlines()
+
+    ## display list with no "\n"
+    print(configlist)
+
+    ## Always close your file
+    configfile.close()
+
+if __name__ == "__main__":
+    main()
