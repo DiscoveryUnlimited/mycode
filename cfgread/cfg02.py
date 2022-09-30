@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Alta3 Research | JPagan
-   Read from files- with customizations."""
+   Read from files."""
 
 
 def main():
