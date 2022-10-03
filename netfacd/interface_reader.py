@@ -13,3 +13,6 @@ for i in netifaces.interfaces():
         print((netifaces.ifaddresses(i)[netifaces.AF_INET])[0]['addr']) # Prints the IP address
     except:          # This is a new line
         print('Could not collect adapter information') # Print an error message
+
+i  =  input("\nWhat adapter would you like to obtain the MAC Address from? ")
+print((netifaces.ifaddresses(i)[netifaces.AF_LINK])[0]['addr']) # Prints the MAC address
