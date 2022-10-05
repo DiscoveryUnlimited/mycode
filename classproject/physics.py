@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Alta3 Research | JPagan
-Calculates magnetic fields"""
+Atrophysics App"""
 
 
 def main():
 
-    print("Magnetic Field Calculator")
+    print("Atrophysics App")
 
 if __name__ == "__main__":
     main()
