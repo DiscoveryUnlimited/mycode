@@ -10,7 +10,8 @@ from PIL import ImageTk
 
 # font paths
 font_path1 = "./classproject/fonts/Raleway-ExtraBold.ttf"
-font_path2 = "./classproject/fonts/Ubuntu-Bold.ttf"
+font_path2 = "./classproject/fonts/Ubuntu-R.ttf"
+font_path3 = "./classproject/fonts/raleway.medium.ttf"
 
 # image paths
 img_path1 = "./classproject/assets/Astrophysics2_logo.png"
@@ -23,6 +24,7 @@ bg_color = "#95A1F1"
 # import fonts
 pyglet.font.add_file(font_path1)
 pyglet.font.add_file(font_path2)
+pyglet.font.add_file(font_path3)
 
 # function to clear current window
 
@@ -62,8 +64,8 @@ def main():
             text="Welcome Space Cadet",
             bg=bg_color,
             fg="black",
-            font=("Raleway", 30)
-        ).pack(pady=20)
+            font=("Raleway ExtraBold", 25)
+        ).pack(pady=15)
 
         # create label widget for instructions
         tk.Label(
@@ -71,7 +73,7 @@ def main():
             text="Enter Your Name",
             bg=bg_color,
             fg="white",
-            font=("Raleway", 14)
+            font=("Raleway", 16)
         ).pack()
 
         # create name entry widget
@@ -87,7 +89,7 @@ def main():
             text="Enter Your Weight",
             bg=bg_color,
             fg="white",
-            font=("Raleway", 14)
+            font=("Raleway", 16)
         ).pack()
 
         # create weight entry widget
