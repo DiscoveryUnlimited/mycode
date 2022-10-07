@@ -7,18 +7,19 @@ import tkinter as tk
 from tkinter import ttk
 import pyglet
 from PIL import ImageTk
-from api_functions import planet_list, planet_info, pic, space_crew, planet_weight
+from api_functions import planet_list, planet_info, pic, space_crew, planet_weight, planet_gravity
 
 # font paths
-FONT_PATH1 = "./classproject/fonts/Raleway-ExtraBold.ttf"
-FONT_PATH2 = "./classproject/fonts/Ubuntu-R.ttf"
-FONT_PATH3 = "./classproject/fonts/raleway.medium.ttf"
+FONT_PATH1 = "./fonts/Raleway-ExtraBold.ttf"
+FONT_PATH2 = "./fonts/Ubuntu-R.ttf"
+FONT_PATH3 = "./fonts/raleway.medium.ttf"
 
 # image paths
-IMG_PATH1 = "./classproject/assets/Astrophysics2_logo.png"
-IMG_PATH2 = "./classproject/assets/Astrophysics2_planet_logo.png"
-IMG_PATH3 = "./classproject/assets/Astrophysics2_banner_logo.png"
-IMG_PATH4 = "./classproject/assets/dailypic.jpg"
+IMG_PATH1 = "./assets/Astrophysics2_logo.png"
+IMG_PATH2 = "./assets/Astrophysics2_planet_logo.png"
+IMG_PATH3 = "./assets/gravity.png"
+IMG_PATH4 = "./assets/dailypic.jpg"
+IMG_PATH5 = "./assets/Astrophysics2_banner_logo.png"
 
 # background color
 BK_COLOR = "#95A1F1"
@@ -269,7 +270,7 @@ def load_frame3():
         "you would weigh " + str(round(weight, 2)) + " lbs"]
 
     # create logo widget
-    logo_img = ImageTk.PhotoImage(file=IMG_PATH3)
+    logo_img = ImageTk.PhotoImage(file=IMG_PATH5)
     logo_widget = tk.Label(frame3, image=logo_img, bg=BK_COLOR)
     logo_widget.image = logo_img
     logo_widget.pack(pady=20)
@@ -280,8 +281,16 @@ def load_frame3():
         text=planet,
         bg=BK_COLOR,
         fg="black",
-        font=("Raleway ExtraBold", 25)
+        font=("Raleway ExtraBold", 35)
     ).pack(pady=25, padx=25)
+
+    # create figure
+    planet_gravity(planet)
+    # create logo widget
+    logo_img1 = ImageTk.PhotoImage(file=IMG_PATH3)
+    logo_widget1 = tk.Label(frame3, image=logo_img1, bg=BK_COLOR)
+    logo_widget1.image = logo_img1
+    logo_widget1.pack(pady=20, padx=25)
 
     # planet data
     for i in planet_facts:
@@ -290,20 +299,20 @@ def load_frame3():
             text=i,
             bg="#272740",
             fg="white",
-            font=("Ubuntu", 16)
+            font=("Ubuntu", 20)
         ).pack(fill="both", padx=25)
 
-    # Restart button
+    # Quit button
     tk.Button(
         frame3,
-        text="Restart",
+        text="QUIT",
         font=("Ubuntu", 18),
         bg="#272740",
         fg="white",
         cursor="hand2",
         activebackground="#45458B",
         activeforeground="black",
-        command=lambda: load_frame1()
+        command=lambda: root.destroy()
     ).pack(pady=20)
 
 
@@ -322,7 +331,7 @@ def load_frame4():
     logo_img = ImageTk.PhotoImage(file=IMG_PATH4)
     logo_widget = tk.Label(frame4, image=logo_img, bg=BK_COLOR)
     logo_widget.image = logo_img
-    logo_widget.pack()
+    logo_widget.pack(pady=10)
 
     # caption
     tk.Label(

@@ -3,19 +3,21 @@
     Astrophysics Functions"""
 
 # imports
+import urllib.request
 import requests
 from PIL import Image
-import urllib.request
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def planet_list():
     """List of planets"""
 
     # API URL
-    SS_API = "https://api.le-systeme-solaire.net/rest/bodies/"
+    ss_api = "https://api.le-systeme-solaire.net/rest/bodies/"
 
     # make API call and sort data
-    bodiesrequest = requests.get(SS_API)
+    bodiesrequest = requests.get(ss_api)
     bodydata = bodiesrequest.json()
     bodies = bodydata.get('bodies')
     names = []
@@ -30,15 +32,15 @@ def planet_info(planet):
     """Information about planet"""
 
     # API URL
-    SS_API = "https://api.le-systeme-solaire.net/rest/bodies/"
+    ss_api = "https://api.le-systeme-solaire.net/rest/bodies/"
 
     # make API call and sort data
-    bodiesrequest = requests.get(SS_API)
+    bodiesrequest = requests.get(ss_api)
     bodydata = bodiesrequest.json()
     bodies = bodydata.get('bodies')
     data = []
     for body in bodies:
-        if body.get('englishName') != planet:
+        if body.get('englishName') == planet:
             data.append(body.get('gravity'))
             data.append((body.get('aphelion') + body.get('perihelion'))/2)
             data.append(body.get('avgTemp'))
@@ -50,49 +52,49 @@ def pic():
     """space picture of the day"""
 
     # API URL and key
-    NASA_API = "https://api.nasa.gov/planetary/apod?"
-    NASA_KEY = "api_key=" + "ZqrQl0M6SGoFZNND3HphsebfoAVJ8AfDjA7hVpgj"
+    nasa_api = "https://api.nasa.gov/planetary/apod?"
+    nasa_key = "api_key=" + "ZqrQl0M6SGoFZNND3HphsebfoAVJ8AfDjA7hVpgj"
 
     # make API call and sort data
-    picrequest = requests.get(NASA_API + NASA_KEY)
+    picrequest = requests.get(nasa_api + nasa_key)
     picdata = picrequest.json()
 
     # URL and title variables
-    picURL = picdata["url"]
-    picTitle = picdata["title"]
+    picurl = picdata["url"]
+    pictitle = picdata["title"]
 
     # file name
-    filename = "./classproject/assets/dailypic.jpg"
+    filename = "./assets/dailypic.jpg"
 
     # save URL to file
-    urllib.request.urlretrieve(picURL, filename)
+    urllib.request.urlretrieve(picurl, filename)
 
-    # Opens a image in RGB mode
-    im = Image.open(filename)
+    # open image
+    img = Image.open(filename)
 
     # Size of the image in pixels (size of original image)
-    width, height = im.size
+    width, height = img.size
 
     # Resize image
-    new_width = 400
+    new_width = 350
     new_height = new_width*(height/width)
     newsize = (new_width, int(new_height))
-    im.thumbnail(newsize)
+    img.thumbnail(newsize)
 
     # save image
-    im.save(filename, "JPEG")
+    img.save(filename, "JPEG")
 
-    return picTitle
+    return pictitle
 
 
 def space_crew():
     """People in space"""
 
     # API URL
-    peopleURL = "http://api.open-notify.org/astros.json"
+    peopleurl = "http://api.open-notify.org/astros.json"
 
     # make API call and sort data
-    peoplerequest = requests.get(peopleURL)
+    peoplerequest = requests.get(peopleurl)
     peopledata = peoplerequest.json()
     people = peopledata.get('people')
     names = []
@@ -111,3 +113,43 @@ def planet_weight(weight1, gravity):
     weight2 = weight1*(gravity/9.8)
 
     return weight2
+
+
+def planet_gravity(planet):
+    """gravity function"""
+
+    # API URL
+    ss_api = "https://api.le-systeme-solaire.net/rest/bodies/"
+
+    # make API call and log mass
+    bodiesrequest = requests.get(ss_api)
+    bodydata = bodiesrequest.json()
+    bodies = bodydata.get('bodies')
+    mass = float()
+    radius = float()
+    for body in bodies:
+        if body.get('englishName') == planet:
+            massdata = body.get('mass')
+            mass = massdata.get('massValue')*(10**massdata.get('massExponent'))
+            radius = body.get('meanRadius')*1000
+
+    # calculation variables
+    g_constant = 6.6743*(10**(-11))  # m^3/(kg s^2)
+    radial_max = 4*radius
+
+    # plot data
+    plt.figure(figsize=(8, 5))
+    inc_r = (radial_max/1000)
+
+    # arguments
+    radi = np.arange(radius, radial_max, inc_r)
+    grav = g_constant*(mass/(radi**2))
+
+    # lables
+    plt.title("Gravity of Planet", fontsize=20)
+    plt.xlabel("Radial Distance from Center (m)", fontsize=17)
+    plt.ylabel("Gravity (m/s²)", fontsize=17)
+    plt.axvline(radius, color="black", ls="--", label=f'Radius: {radius} m')
+    plt.legend(loc='upper center', fontsize=14)
+    plt.plot(radi, grav)
+    plt.savefig('./assets/gravity.png')
