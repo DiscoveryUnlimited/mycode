@@ -3,27 +3,22 @@
     Astrophysics Functions"""
 
 # imports
-from matplotlib.pyplot import title
 import requests
-import json
 from PIL import Image
 import urllib.request
 
 
 def planet_list():
+    """List of planets"""
+
     # API URL
     SS_API = "https://api.le-systeme-solaire.net/rest/bodies/"
 
-    # make a call to NASAAPI with our key
+    # make API call and sort data
     bodiesrequest = requests.get(SS_API)
-
-    # json
     bodydata = bodiesrequest.json()
-
     bodies = bodydata.get('bodies')
-
     names = []
-
     for body in bodies:
         if body.get('isPlanet') and body.get('englishName') != "Earth":
             names.append(body.get('englishName'))
@@ -32,19 +27,16 @@ def planet_list():
 
 
 def planet_info(planet):
+    """Information about planet"""
+
     # API URL
     SS_API = "https://api.le-systeme-solaire.net/rest/bodies/"
 
-    # make a call to NASAAPI with our key
+    # make API call and sort data
     bodiesrequest = requests.get(SS_API)
-
-    # json
     bodydata = bodiesrequest.json()
-
     bodies = bodydata.get('bodies')
-
     data = []
-
     for body in bodies:
         if body.get('englishName') != planet:
             data.append(body.get('gravity'))
@@ -55,16 +47,17 @@ def planet_info(planet):
 
 
 def pic():
-    # API URL
+    """space picture of the day"""
+
+    # API URL and key
     NASA_API = "https://api.nasa.gov/planetary/apod?"
     NASA_KEY = "api_key=" + "ZqrQl0M6SGoFZNND3HphsebfoAVJ8AfDjA7hVpgj"
 
-    # make a call to NASAAPI with our key
+    # make API call and sort data
     picrequest = requests.get(NASA_API + NASA_KEY)
-
-    # json
     picdata = picrequest.json()
 
+    # URL and title variables
     picURL = picdata["url"]
     picTitle = picdata["title"]
 
@@ -74,39 +67,34 @@ def pic():
     # save URL to file
     urllib.request.urlretrieve(picURL, filename)
 
-    # Resize image
-
     # Opens a image in RGB mode
     im = Image.open(filename)
 
     # Size of the image in pixels (size of original image)
     width, height = im.size
 
-    # resize
+    # Resize image
     new_width = 400
     new_height = new_width*(height/width)
     newsize = (new_width, int(new_height))
-
     im.thumbnail(newsize)
-    # Shows the image in image viewer
+
+    # save image
     im.save(filename, "JPEG")
 
     return picTitle
 
 
 def space_crew():
+    """People in space"""
+
     # API URL
     peopleURL = "http://api.open-notify.org/astros.json"
 
-    # make a request with the request library
+    # make API call and sort data
     peoplerequest = requests.get(peopleURL)
-
-    # strip off json attachment from our response
     peopledata = peoplerequest.json()
-
     people = peopledata.get('people')
-    num = peopledata.get('number')
-
     names = []
     craft = []
     for person in people:
@@ -115,6 +103,11 @@ def space_crew():
 
     return names, craft
 
+
 def planet_weight(weight1, gravity):
+    """Calculate force on surface of other body"""
+
+    # force calcualation
     weight2 = weight1*(gravity/9.8)
+
     return weight2
